@@ -14,37 +14,42 @@ document.addEventListener("DOMContentLoaded", function() {
 	firstName.addEventListener('input', () => {
 		firstNameIsValid = firstName.value.length >= 3
 		if(!firstNameIsValid) {
-			firstName.classList.add('invalid')
+			firstName.classList.add('is-invalid')
+			firstName.parentNode.className = "invalid"
 			firstNameMsg.textContent = `Please use 3 or more characters!. Number of characters is ${firstName.value.length}`
 		} else {
-			firstName.classList.remove('invalid')
+			firstName.classList.remove('is-invalid')
+			firstName.parentNode.className = "form-group"
 			firstNameMsg.textContent = ''
 		}
 	})
 	lastName.addEventListener('input', () => {
 		lastNameIsValid = lastName.value.length >= 3
 		if(!lastNameIsValid) {
-			lastName.classList.add('invalid')
+			lastName.classList.add('is-invalid')
+			firstName.parentNode.className = "invalid"
 			lastNameMsg.textContent = `Please use 3 or more characters!. Number of characters is ${lastName.value.length}`
 		} else {
-			lastName.classList.remove('invalid')
+			lastName.classList.remove('is-invalid')
+			firstName.parentNode.className = "form-group"
 			lastNameMsg.textContent = ''
 		}
 	})
 	email.addEventListener("input", () => {
 		emailIsValid = email.value.length === 0 || emailRegExp.test(email.value)
 		if(!emailIsValid) {
-			email.classList.add('invalid')
+			email.classList.add('is-invalid')
 			emailMsg.textContent = 'Please enter a valid email address'
 		} else {
-			email.classList.remove('invalid')
+			email.classList.remove('is-invalid')
 			emailMsg.textContent = ''
 		}
 	})
-	form.addEventListener("submit", (event) => {
-		event.preventDefault()
+	form.addEventListener("submit", (e) => {
+		e.preventDefault()
 		if(!firstNameIsValid || !lastNameIsValid || !emailIsValid) {
 			console.log('Bad input')
+			console.log(firstName.value, lastName.value, email.value)
 		} else {
 			console.log('Form successfully submitted!')
 		}

@@ -8,7 +8,7 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="form-validation.css" />
+    <!-- <link rel="stylesheet" href="form-validation.css" /> -->
   </head>
 
   <body>
@@ -22,7 +22,7 @@
             class="form-control validate-input"
             type="text"
             name="first-name"
-            
+            required
           />
           <small class="error" aria-live="polite"></small>
         </div>
@@ -34,7 +34,7 @@
             class="form-control validate-input"
             type="text"
             name="last-name"
-            
+            required
           />
           <small class="error" aria-live="polite"></small>
         </div>
@@ -46,13 +46,14 @@
             class="form-control validate-input"
             type="email"
             name="email"
+            required
           />
           <small class="error" aria-live="polite"></small>
         </div>
 
         <div class="form-group">
           <label for="kind">What can we help with?</label>
-          <select class="form-control" name="kind" id="contact-kind">
+          <select class="form-control" name="kind" id="contact-kind" required>
             <option value="choose" selected="selected" disabled>
               Choose one
             </option>
