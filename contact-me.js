@@ -1,92 +1,101 @@
 document.addEventListener("DOMContentLoaded", function() {
     // TODO
-    let selectContactReason = document.querySelector('#contact-reason')
+    let selectReason = document.querySelector('#reason')
     let divJobTitle = document.querySelector('.job-title')
     let divWebsite = document.querySelector('.website')
-    let divCodingLanguage = document.querySelector('.coding-language')
-    let yourName = document.querySelector('#your-name')
+    let divLanguage = document.querySelector('.language')
+    let name = document.querySelector('#name')
     let email = document.querySelector('#email')
-    let message = document.querySelector('#your-message')
+    let message = document.querySelector('#message')
     let form = document.querySelector('#connect-form')
     let jobTitle = document.querySelector('#job-title')
     let website = document.querySelector('#website')
-    let selectCodingLanguage = document.querySelector('#coding-language')
-    selectContactReason.addEventListener('change', () => {
-        if(selectContactReason.value === 'jobOpportunity') {
+    let selectLanguage = document.querySelector('#language')
+	let emailRegExp = /\w+@\w+\.\w+/
+    let websiteRegExp = /https?\:\/\/.+\..+/
+    selectReason.addEventListener('change', () => {
+        if(selectReason.value === 'choose') {
+            divJobTitle.classList.add('is-invalid')
+            name.nextElementSibling.textContent = 'Please select a your Reason!'
+        } else if(selectReason.value === 'jobOpportunity') {
             divJobTitle.classList.remove('disable')
             divWebsite.classList.remove('disable')
-            divCodingLanguage.classList.add('disable')
-        } else if(selectContactReason.value === 'talk') {
-            divCodingLanguage.classList.remove('disable')
+            divLanguage.classList.add('disable')
+            selectReason.classList.remove('is-invalid')
+            selectReason.nextElementSibling.textContent = ""
+        } else if(selectReason.value === 'talk') {
+            divLanguage.classList.remove('disable')
             divJobTitle.classList.add('disable')
             divWebsite.classList.add('disable')
+            selectReason.classList.remove('is-invalid')
+            selectReason.nextElementSibling.textContent = ""
         }
     })
-    yourName.addEventListener('input', (e) => {
-        if(yourName.validity.tooShort) {
-            yourName.setCustomValidity("Please use 3 or more characters!")
-            yourName.reportValidity()
-        } else {
-            yourName.setCustomValidity("")
-        }
-    })
-    email.addEventListener("input", (e) => {
-        if(email.validity.typeMismatch) {
-            email.setCustomValidity("Please enter a valid e-mail address!")
-            email.reportValidity()
-        } else {
-            email.setCustomValidity("")
-        }
-    })
-    message.addEventListener('input', (e) => {
-        if(message.validity.tooShort) {
-            message.setCustomValidity("Please use 10 or more characters!")
-            message.reportValidity()
-        } else {
-            message.setCustomValidity("")
+
+    selectLanguage.addEventListener('change', () => {
+        if(!selectLanguage.valueMissing) {
+            selectLanguage.classList.remove("is-invalid")
+            selectLanguage.nextElementSibling.textContent = ''
         }
     })
 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
-        if(yourName.validity.tooShort || yourName.validity.valueMissing) {
-            yourName.nextElementSibling.textContent = 'Please insert your correct Name!'
+        if(name.validity.tooShort || name.validity.valueMissing) {
+            name.nextElementSibling.textContent = 'Please insert your correct Name!'
+			name.classList.add('is-invalid')
+        } else {
+            name.classList.remove('is-invalid')
+            name.nextElementSibling.textContent = ''
         }
-        if(!yourName.validity.tooShort && !yourName.validity.valueMissing) {
-            yourName.nextElementSibling.textContent = ''
-        }
-        if(email.validity.typeMismatch || email.validity.valueMissing) {
+        if(!emailRegExp.test(email.value) || email.validity.typeMismatch || email.validity.valueMissing) {
             email.nextElementSibling.textContent = 'Please insert your correct Email!'
-        }
-        if(!email.validity.typeMismatch && !email.validity.valueMissing) {
+			email.classList.add('is-invalid')
+        } else {
             email.nextElementSibling.textContent = ''
+            email.classList.remove('is-invalid')
+        }
+        if(selectReason.value === 'choose') {
+            selectReason.nextElementSibling.textContent = 'Please select a your Reason!'
+            selectReason.classList.add('is-invalid')
+        } else if(selectReason.value === 'talk') {
+            selectReason.classList.remove('is-invalid')
+        }
+        if(divJobTitle.classList.contains('disable')) {
+            jobTitle.nextElementSibling.textContent = ''
+            jobTitle.classList.remove("is-invalid")
+        } else if(jobTitle.validity.valueMissing || jobTitle.validity.tooShort) {
+            jobTitle.nextElementSibling.textContent = 'Please insert a correct Job title!'
+            jobTitle.classList.add('is-invalid')
+        } else {
+            jobTitle.nextElementSibling.textContent = ''
+            jobTitle.classList.remove('is-invalid')
+        }
+        if(divWebsite.classList.contains('disable')) {
+            website.nextElementSibling.textContent = ''
+            website.classList.remove('is-invalid')
+        } else if(websiteRegExp.test(website.value) || website.validity.valueMissing || !website.validity.valid) {
+            website.nextElementSibling.textContent = 'Please insert your correct Website!'
+			website.classList.add('is-invalid')
+        } else {
+            website.classList.remove('is-invalid')
+        }
+        if(divLanguage.classList.contains('disable')) {
+            selectLanguage.nextElementSibling.textContent = ''
+            selectLanguage.classList.remove('is-invalid')
+        } else if(selectLanguage.validity.valueMissing) {
+            selectLanguage.nextElementSibling.textContent = 'Please select Coding language!'
+			selectLanguage.classList.add('is-invalid')
+        } else {
+            selectLanguage.nextElementSibling.textContent = ''
+            selectLanguage.classList.remove('is-invalid')
         }
         if(message.validity.tooShort || message.validity.valueMissing) {
             message.nextElementSibling.textContent = 'Please insert your correct Message format!'
-        }
-        if(!message.validity.tooShort && !message.validity.valueMissing) {
+			message.classList.add('is-invalid')
+        } else {
             message.nextElementSibling.textContent = ''
-        }
-        if(jobTitle.validity.valueMissing && !divJobTitle.classList.contains('disable')) {
-            jobTitle.nextElementSibling.textContent = 'Please insert a correct Job title!'
-        }
-        if(!jobTitle.validity.valueMissing && !divJobTitle.classList.contains('disable')) {
-            jobTitle.nextElementSibling.textContent = ''
-        }
-        if(!website.validity.valid && !divWebsite.classList.contains('disable')) {
-            website.nextElementSibling.textContent = 'Please insert your correct Company website!'
-        } 
-        if(website.validity.valueMissing && !divWebsite.classList.contains('disable')) {
-            website.nextElementSibling.textContent = 'Please insert your correct Company website!'
-        }
-        if(website.validity.valid && !website.validity.valueMissing && !divWebsite.classList.contains('disable')) {
-            website.nextElementSibling.textContent = ''
-        }
-        if(selectCodingLanguage.validity.valueMissing && !divCodingLanguage.classList.contains('disable')) {
-            selectCodingLanguage.nextElementSibling.textContent = 'Please insert a correct Coding language!'
-        }
-        if(!selectCodingLanguage.validity.valueMissing && !divCodingLanguage.classList.contains('disable')) {
-            selectCodingLanguage.nextElementSibling.textContent = ''
+			message.classList.remove('is-invalid')
         }
     })
 })
